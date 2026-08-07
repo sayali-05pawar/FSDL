@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sayali Pawar | ML Engineer</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+
+    <style>
+        :root {
+            /* Light Theme Variables */
+            --bg: #f3f4f6;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --primary: #6366f1;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-border: rgba(255, 255, 255, 0.8);
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --blob-color: rgba(99, 102, 241, 0.1);
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Variables */
+            --bg: #0f172a;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --primary: #818cf8;
+            --primary-gradient: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+            --card-bg: rgba(30, 41, 59, 0.6);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --nav-bg: rgba(15, 23, 42, 0.8);
+            --blob-color: rgba(129, 140, 248, 0.15);
+            --shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Background Blobs */
+        .bg-blob {
+            position: fixed;
+            width: 600px; height: 600px;
+            background: var(--blob-color);
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: floatBlob 20s infinite alternate;
+        }
+        .blob-1 { top: -10%; left: -10%; }
+        .blob-2 { bottom: -10%; right: -10%; animation-delay: -10s; background: rgba(168, 85, 247, 0.1); }
+
+        @keyframes floatBlob { from { transform: translate(0, 0); } to { transform: translate(50px, 50px); } }
+
+        /* Scroll Progress */
+        #progress {
+            position: fixed; top: 0; left: 0; height: 4px;
+            background: var(--primary-gradient); width: 0%; z-index: 1002;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed; top: 0; width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            z-index: 1000;
+        }
+
+        .nav-inner {
+            max-width: 1200px; margin: auto; padding: 18px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .logo { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.5px; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .nav-links { display: flex; gap: 30px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 500; font-size: 0.95rem; position: relative; }
+        .nav-links a::after {
+            content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0;
+            background: var(--primary); transition: width 0.3s;
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        #theme-toggle {
+            background: transparent; border: 1px solid var(--text-muted); color: var(--text-main);
+            width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+            display: grid; place-items: center; transition: 0.3s;
+        }
+        #theme-toggle:hover { border-color: var(--primary); color: var(--primary); transform: rotate(15deg); }
+
+        /* Container & Sections */
+        .container { max-width: 1200px; margin: auto; padding: 0 24px; }
+        section { padding: 100px 0; }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center;
+            padding-top: 80px; /* Offset for nav */
+        }
+        .hero-grid {
+            display: grid; grid-template-columns: 1.2fr 0.8fr; align-items: center; gap: 50px; width: 100%;
+        }
+
+        .hero-content h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+        .highlight { background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .hero-content p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 30px; max-width: 600px; line-height: 1.6; }
+
+        .btn-group { display: flex; gap: 15px; }
+        .btn {
+            padding: 12px 30px; border-radius: 30px; font-weight: 600; text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-primary { background: var(--primary-gradient); color: white; border: none; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); }
+        .btn-outline { background: transparent; border: 2px solid var(--card-border); color: var(--text-main); box-shadow: inset 0 0 0 1px var(--text-muted); }
+        
+        .btn:hover { transform: translateY(-3px); }
+        .btn-primary:hover { box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5); }
+
+        /* Hero Image - The "Blob" Effect */
+        .hero-img-wrapper {
+            position: relative; display: flex; justify-content: center;
+        }
+        .hero-img {
+            width: 100%; max-width: 400px; aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: morph 8s ease-in-out infinite;
+            box-shadow: var(--shadow);
+            border: 4px solid var(--bg);
+            z-index: 2;
+        }
+        .hero-bg-shape {
+            position: absolute; top: 10%; right: 10%;
+            width: 100%; max-width: 400px; aspect-ratio: 1/1;
+            background: var(--primary-gradient);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            opacity: 0.2; z-index: 1;
+            animation: morph 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes morph {
+            0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            50% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+            100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+        }
+
+        /* Section Headers */
+        .section-header { margin-bottom: 60px; }
+        .section-header h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+        .section-line { height: 4px; width: 60px; background: var(--primary-gradient); border-radius: 2px; }
+
+        /* Cards (Glassmorphism) */
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+            padding: 30px; border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 100%; display: flex; flex-direction: column;
+        }
+        .glass-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+
+        /* Projects */
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .project-icon { font-size: 2.5rem; margin-bottom: 20px; color: var(--primary); }
+        .tech-stack { margin-top: auto; padding-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .tech-pill { font-size: 0.75rem; padding: 4px 12px; border-radius: 12px; background: rgba(99, 102, 241, 0.1); color: var(--primary); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+
+        /* Skills with Icons */
+        .skills-wrapper { display: grid; gap: 30px; }
+        .skill-category { margin-bottom: 20px; }
+        .skill-category h3 { margin-bottom: 20px; font-size: 1.1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background: var(--bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .skill-card i { font-size: 3rem; transition: transform 0.3s; }
+        .skill-card span { font-size: 0.9rem; font-weight: 600; }
+
+        /* Colored Icons */
+        .colored { color: inherit; }
+        
+        .skill-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .skill-card:hover i { transform: scale(1.1); }
+
+        /* Experience Timeline */
+        .timeline { border-left: 2px solid var(--card-border); padding-left: 30px; position: relative; }
+        .timeline-item { margin-bottom: 40px; position: relative; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -36px; top: 5px;
+            width: 12px; height: 12px; background: var(--primary);
+            border-radius: 50%; box-shadow: 0 0 0 5px var(--bg);
+        }
+        .date { font-family: 'JetBrains Mono', monospace; color: var(--primary); font-size: 0.85rem; font-weight: 700; margin-bottom: 5px; display: block; }
+
+        /* Contact */
+        .contact-box {
+            background: var(--primary-gradient); color: white;
+            padding: 80px 40px; border-radius: 30px; text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .contact-box h2 { font-size: 2.5rem; margin-bottom: 15px; }
+        .contact-box p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 30px; }
+        .btn-white { background: white; color: var(--primary); padding: 14px 40px; border-radius: 50px; font-weight: 700; text-decoration: none; transition: 0.3s; }
+        .btn-white:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-img-wrapper { margin: 40px auto 0; max-width: 300px; }
+            .btn-group { justify-content: center; }
+            .hero-content h1 { font-size: 3rem; }
+            .nav-inner { padding: 15px 20px; }
+            .hero-content p { margin: 0 auto 30px; }
+            .logo-grid { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); }
+            .skill-card i { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+    <div id="progress"></div>
+
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="logo">SAYALI.P</a>
+            <div class="nav-links">
+                <a href="#work">Work</a>
+                <a href="#about">About</a>
+                <button id="theme-toggle" aria-label="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="container hero">
+            <div class="hero-grid">
+                <div class="hero-content" data-aos="fade-right">
+                    <h1>Hi, I'm Sayali.<br><span class="highlight" id="typed"></span></h1>
+                    <p>
+                        I bridge the gap between complex data and actionable insights by building scalable 
+                        ML solutions and intuitive interfaces. Currently exploring <b>Generative AI</b> and <b>Edge Computing</b>.
+                    </p>
+                    <div class="btn-group">
+                        <a href="#work" class="btn btn-primary">View Projects</a>
+                        <a href="https://github.com/sayali-05pawar" class="btn btn-outline"><i class="fab fa-github"></i> Github</a>
+                        <a href="https://www.linkedin.com/in/sayalii-pawar" class="btn btn-outline"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                    </div>
+                </div>
+                
+                <div class="hero-img-wrapper" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="hero-bg-shape"></div>
+                    <img src="myPic2.jpg" 
+                         alt="Sayali Pawar" class="hero-img">
+                </div>
+            </div>
+        </section>
+
+        <section id="work" class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Selected Work</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="projects-grid">
+                <div class="glass-card" data-aos="fade-up">
+                    <i class="fas fa-plane-departure project-icon"></i>
+                    <h3>Airline Satisfaction</h3>
+                    <p style="color: var(--text-muted); margin: 10px 0 20px;">
+                        A classification model achieving 96.24% accuracy to predict passenger loyalty. 
+                        Integrated with a Power BI dashboard to visualize key churn drivers.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-pill">Python</span>
+                        <span class="tech-pill">XGBoost</span>
+                        <span class="tech-pill">Power BI</span>
+                    </div>
+                </div>
+
+                <div class="glass-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-hospital-user project-icon"></i>
+                    <h3>Hospital Resource AI</h3>
+                    <p style="color: var(--text-muted); margin: 10px 0 20px;">
+                        Engineered an intelligent resource management system designed to minimize patient 
+                        wait times and optimize staff distribution using simulation modeling.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-pill">Simulation</span>
+                        <span class="tech-pill">Pandas</span>
+                        <span class="tech-pill">Optimization</span>
+                    </div>
+                </div>
+
+                <div class="glass-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-microscope project-icon"></i>
+                    <h3>Few-Shot PCOS Detection</h3>
+                    <p style="color: var(--text-muted); margin: 10px 0 20px;">
+                        Research on data-efficient deep learning techniques for medical imaging, 
+                        enabling accurate PCOS diagnosis from limited datasets.
+                    </p>
+                    <div class="tech-stack">
+                        <span class="tech-pill">PyTorch</span>
+                        <span class="tech-pill">Deep Learning</span>
+                        <span class="tech-pill">CV</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <br><br>
+        <section id="about" class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Technical Toolkit</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="skills-wrapper">
+                
+                <div class="skill-category" data-aos="fade-up">
+                    <h3>Languages & Core</h3>
+                    <div class="logo-grid">
+                        <div class="skill-card">
+                            <i class="devicon-python-plain colored"></i>
+                            <span>Python</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="devicon-cplusplus-plain colored"></i>
+                            <span>C++</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="devicon-html5-plain colored"></i>
+                            <span>HTML5</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="devicon-css3-plain colored"></i>
+                            <span>CSS3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="100">
+                    <h3>Machine Learning & Data</h3>
+                    <div class="logo-grid">
+                        <div class="skill-card">
+                            <i class="devicon-tensorflow-original colored"></i>
+                            <span>TensorFlow</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="devicon-pytorch-original colored"></i>
+                            <span>PyTorch</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="devicon-pandas-original colored"></i>
+                            <span>Pandas</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="devicon-numpy-original colored"></i>
+                            <span>NumPy</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="devicon-scikitlearn-plain colored"></i>
+                            <span>Scikit-learn</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Tools & Databases</h3>
+                    <div class="logo-grid">
+                        <div class="skill-card">
+                            <i class="devicon-mysql-plain colored"></i>
+                            <span>SQL</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="devicon-mongodb-plain colored"></i>
+                            <span>MongoDB</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="devicon-git-plain colored"></i>
+                            <span>Git</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="devicon-jupyter-plain colored"></i>
+                            <span>Jupyter</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <br><br>
+        <section class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Experience</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="timeline" data-aos="fade-up">
+                <div class="timeline-item">
+                    <span class="date">Jun 2025 – Jul 2025</span>
+                    <h3 style="font-size: 1.3rem;">Machine Learning Intern</h3>
+                    <p style="font-weight: 600; color: var(--primary);">Edgenius</p>
+                    <p style="color: var(--text-muted); margin-top: 8px;">
+                        Engineered predictive models using Scikit-learn and XGBoost. Improved model training efficiency through advanced data pre-processing pipelines.
+                    </p>
+                </div>
+                <div class="timeline-item">
+                    <span class="date">Oct 2024 – Apr 2025</span>
+                    <h3 style="font-size: 1.3rem;">Technical Team Member</h3>
+                    <p style="font-weight: 600; color: var(--primary);">PCCOE ACM-W</p>
+                    <p style="color: var(--text-muted); margin-top: 8px;">
+                        Spearheaded technical workshops and hackathons for 100+ students, fostering a collaborative learning environment and mentoring juniors.
+                    </p>
+                </div>
+            </div>
+        </section>
+        <br><br>
+        <section id="contact" class="container" style="padding-bottom: 50px;">
+            <div class="contact-box" data-aos="zoom-in">
+                <h2>Ready to collaborate?</h2>
+                <p>I'm currently looking for new opportunities in ML and Data Science.</p>
+                <a href="mailto:sayalipawar20055@gmail.com" class="btn-white">Say Hello</a>
+            </div>
+            <p style="text-align: center; color: var(--text-muted); margin-top: 50px; font-size: 0.9rem;">
+                © 2026 Sayali Pawar. Built with code.
+            </p>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Init Animation
+        AOS.init({ duration: 800, once: true, offset: 100 });
+
+        // Typing Effect
+        const words = ["ML Engineer.", "Data Scientist.", "Python Dev."];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typedElement = document.getElementById("typed");
+
+        function type() {
+            const currentWord = words[wordIndex];
+            if (isDeleting) {
+                typedElement.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typedElement.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 40 : 100;
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                typeSpeed = 2000; // Pause at end
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+        document.addEventListener("DOMContentLoaded", type);
+
+        // Progress Bar
+        window.onscroll = () => {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById("progress").style.width = (winScroll / height) * 100 + "%";
+        };
+
+        // Theme Toggle
+        const themeBtn = document.getElementById("theme-toggle");
+        const icon = themeBtn.querySelector("i");
+        
+        themeBtn.onclick = () => {
+            const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+            document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
+            icon.className = isDark ? "fas fa-moon" : "fas fa-sun";
+        };
+    </script>
+</body>
+</html>
